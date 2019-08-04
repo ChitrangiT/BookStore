@@ -2,7 +2,10 @@ package com.BookStore.Services;
 
 import java.util.List;
 
+import javax.jms.Queue;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import com.BookStore.Beans.Book;
@@ -13,6 +16,12 @@ public class BookService {
 	
 	@Autowired
 	BookRepo bookRepo;
+	
+	@Autowired
+	JmsMessagingTemplate jmstemplate;
+	
+	@Autowired
+	Queue msgqueue;
 	
 	
 	public Book getBookById(int bookId) {
@@ -30,5 +39,18 @@ public class BookService {
 		List<Book> lstAllBooks = (List<Book>) bookRepo.findAll();
 		return lstAllBooks;
 	}
+
+	public void updateStatus(String city, int bookid) {
+		String message = "Order with bookid " + bookid +" reached city "+ city;
+		jmstemplate.convertAndSend(msgqueue,message);
+		
+	}
+
+	public String addBook(Book book) {
+		bookRepo.save(book);
+		return "Added Successfully";
+	}
+
+	
 
 }
