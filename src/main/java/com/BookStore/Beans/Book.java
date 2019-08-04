@@ -16,8 +16,24 @@ public class Book {
 	private int noOfCopies;
 	private float price;
 	
+	public Book(String bookName, String auther, int noOfCopies, float price) {
+	
+		this.bookName = bookName;
+		this.auther = auther;
+		this.noOfCopies = noOfCopies;
+		this.price = price;
+	}
+	
+	public Book() {
+		
+	}
+
 	public int getBookId() {
 		return bookId;
+	}
+	
+	public void setBookId(int bookId) {
+		this.bookId = bookId;
 	}
 	
 	public String getBookName() {
